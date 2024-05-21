@@ -1,6 +1,24 @@
-import React from 'react'
+import { useNavigate } from "react-router-dom";
+import { useForm } from "../../hook/useForm";
+import { HeroCard } from "../components";
 
 export const SearchPage = () => {
+
+  const navigate = useNavigate();
+
+  const { searchText , onInputChange } = useForm({
+    searchText: ""
+  });
+
+  const onSearchSubmit = ( e ) => {
+    e.preventDefault();
+    if( searchText.trim().length <= 1 ) return;
+    console.log({ searchText })
+
+    navigate(`?q=${ searchText }`)
+  }
+
+
   return (
     <>
       <h1>Search</h1>
@@ -11,7 +29,7 @@ export const SearchPage = () => {
         <div className='col-5'>
           <h4>Searching</h4>
           <hr/>
-          <fomr>
+          <form onSubmit={ onSearchSubmit }>
             <input 
               type="text" 
               placeholder='Search a hero'
@@ -19,19 +37,29 @@ export const SearchPage = () => {
               name="searchText" 
               id=""
               autoComplete='off' 
+              value={ searchText }
+              onChange={ onInputChange }
             />
             <button className='btn btn-outline-primary mt-1'>
               Search
             </button>
-          </fomr>
+          </form>
         </div>
 
         <div className='col-7'>
           <h4>Result</h4>
           <hr/>
+
           <div className='alert alert-info'>
             Search a hero
           </div>
+
+          <div className='alert alert-danger'>
+            No hero wit <b>ABC</b>
+          </div>
+
+          {/* <HeroCard /> */}
+
         </div>
       </div>
 
